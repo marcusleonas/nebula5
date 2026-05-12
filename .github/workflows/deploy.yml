@@ -1,0 +1,53 @@
+name: Build and Deploy to Nekoweb
+
+on:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # The checkout step copies your repo into the action runner. Important!
+      - uses: actions/checkout@v4
+
+    #   - name: Install, build, and upload your site
+    #     uses: withastro/action@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+            bun-version: latest
+
+      - uses: actions/setup-node@v6
+        with:
+            # Version Spec of the version to use in SemVer notation.
+            # It also admits such aliases as lts/*, latest, nightly and canary builds
+            # Examples: 12.x, 10.15.1, >=10.15.0, lts/Hydrogen, 16-nightly, latest, node
+            node-version: 'lts/*'
+
+      - name: Install deps
+        run: bun install
+
+      - name: Build project
+        run: bun run build
+
+      - name: Deploy to NekoWeb
+        uses: indiefellas/deploy2nekoweb@main
+        with:
+          nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
+          nekoweb-domain: "n3bula.lol"
+          nekoweb-username: "wishbone"
+          directory: "/dist"
+
+      # deploy backup to github pages
+      # - name: Deploy to GitHub Pages
+      #   id: deployment
+      #   uses: actions/deploy-pages@v4

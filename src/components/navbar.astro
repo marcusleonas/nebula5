@@ -1,0 +1,65 @@
+---
+import { navLinks } from "~/content/navbar";
+import { House, ExternalLink } from "@lucide/astro";
+---
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">n3bula.lol<span class="blink">_</span></a>
+        <ul class="nav-links">
+            <a href="/">
+                <House size={18} />
+            </a>
+            {
+                navLinks.map(({ label, links, description }) => (
+                    <li>
+                        <details>
+                            <summary>{label}</summary>
+                            <div>
+                                <div class="title">
+                                    <h2>{label}</h2>
+                                    <p>{description}</p>
+                                </div>
+                                <div class="button-grid">
+                                    {links.map((link) => (
+                                        <a href={link.href}>
+                                            {link.icon && (
+                                                <link.icon size={24} />
+                                            )}{" "}
+                                            <span>
+                                                <strong>
+                                                    {link.label}{" "}
+                                                    {link.external && (
+                                                        <ExternalLink
+                                                            size={16}
+                                                        />
+                                                    )}
+                                                </strong>
+                                                <span>{link.description}</span>
+                                            </span>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </details>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</nav>
+
+<script>
+    var details = [
+        ...document.querySelectorAll(".nav-links details"),
+    ] as HTMLDetailsElement[];
+    document.addEventListener("click", function (e) {
+        if (!details.some((f) => f.contains(e.target))) {
+            details.forEach((f) => f.removeAttribute("open"));
+        } else {
+            details.forEach((f) =>
+                !f.contains(e.target) ? f.removeAttribute("open") : "",
+            );
+        }
+    });
+</script>

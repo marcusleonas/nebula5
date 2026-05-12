@@ -1,0 +1,27 @@
+---
+import type { MarkdownLayoutProps } from "astro";
+import * as Icons from "@lucide/astro";
+import Base from "~/layouts/base.astro";
+
+type Props = MarkdownLayoutProps<{
+  title: string;
+  description: string;
+  icon: string;
+}>;
+
+const { frontmatter } = Astro.props;
+
+const icon = Icons[frontmatter.icon as keyof typeof Icons];
+---
+
+<Base
+  title={frontmatter.title}
+  description={frontmatter.description}
+  icon={icon}
+>
+  <section>
+    <article>
+      <slot />
+    </article>
+  </section>
+</Base>

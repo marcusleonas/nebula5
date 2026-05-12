@@ -1,0 +1,42 @@
+---
+import Base from "~/layouts/base.astro";
+import { History } from "@lucide/astro";
+import { getCollection, render } from "astro:content";
+
+const changes = (await getCollection("changes")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base
+    title="Changelog"
+    description="A list of all major changes on my site"
+    icon={History}
+>
+    <section>
+        <article>
+            {
+                changes.map(async (change) => {
+                    const { Content } = await render(change);
+                    return (
+                        <div>
+                            <strong>
+                                {new Date(change.data.date).toLocaleDateString(
+                                    "en-GB",
+                                    {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    },
+                                )}
+                            </strong>
+                            <Content />
+                        </div>
+                    );
+                })
+            }
+        </article>
+    </section>
+</Base>

@@ -1,0 +1,23 @@
+---
+import { type Game } from "~/content/games.ts";
+type Props = {
+    games: Game[];
+};
+const { games } = Astro.props;
+---
+
+<div class="auto-grid">
+    {
+        games.map((game) => (
+            <a
+                href={game.link}
+                target="_blank"
+                aria-label={game.name}
+                class="image-card"
+            >
+                <img src={game.image.src} alt={game.name} />
+                <p>{game.name}</p>
+            </a>
+        ))
+    }
+</div>

@@ -1,0 +1,19 @@
+---
+layout: ~/layouts/page.astro
+title: Gaming
+description: Games I've played/play & love!
+icon: Gamepad2
+---
+
+import { games } from "~/content/games";
+import GameGrid from "~/components/game-grid.astro";
+
+## Playing
+
+<GameGrid games={games.filter((g) => g.status === "playing")} />
+
+## Played
+
+<GameGrid games={games.filter((g) => g.status === "played")} />
+
+...Aaannd way more. I couldn't be bothered to list everything, but you get the idea!

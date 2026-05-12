@@ -1,0 +1,90 @@
+<div id="lastfm-box" data-now-playing="">
+    <h2 id="last-played">Last Played</h2>
+    <div class="album-cover-wrapper">
+        <img src="" alt="Loading..." id="album-cover" />
+    </div>
+    <h3><a href="#" id="song-name">Loading...</a></h3>
+    <div id="song-details">
+        <p id="artist-name"></p>
+        <p id="album-name"></p>
+    </div>
+    <details>
+        <summary>Recent scrobbles</summary>
+        <ol id="recent-scrobbles"></ol>
+    </details>
+</div>
+
+<script>
+    const lastfmBox = document.querySelector("#lastfm-box") as HTMLDivElement;
+    const header = document.querySelector("#last-played") as HTMLHeadingElement;
+    const albumCover = document.querySelector(
+        "#album-cover",
+    ) as HTMLImageElement;
+    const songName = document.querySelector("#song-name") as HTMLAnchorElement;
+
+    const songDetails = document.querySelector(
+        "#song-details",
+    ) as HTMLDivElement;
+
+    const artistName = document.querySelector(
+        "#artist-name",
+    ) as HTMLParagraphElement;
+    const albumName = document.querySelector(
+        "#album-name",
+    ) as HTMLParagraphElement;
+
+    const recentScrobbles = document.querySelector(
+        "#recent-scrobbles",
+    ) as HTMLOListElement;
+
+    async function getRecentTracks() {
+        const response = await fetch(
+            "https://lastfm-api-wrapper.n3bula.lol/recent/marcusleonas?limit=4",
+        );
+        const json = (await response.json()) as {
+            artist: string;
+            song: string;
+            songUrl: string;
+            album: string;
+            albumCover: string;
+            nowPlaying: boolean;
+        }[];
+
+        albumCover.src = json[0].albumCover;
+
+        lastfmBox.dataset.nowPlaying = String(json[0].nowPlaying === true);
+        if (json[0].nowPlaying) {
+            header.innerHTML = "Listening To";
+        } else {
+            header.innerHTML = "Last Played";
+        }
+
+        songName.innerHTML = json[0].song;
+        songName.href = json[0].songUrl;
+
+        artistName.innerHTML = json[0].artist;
+        albumName.innerHTML = json[0].album;
+
+        recentScrobbles.innerHTML = "";
+
+        json.slice(1, 5).forEach((item) => {
+            const li = document.createElement("li");
+
+            const a = document.createElement("a");
+            a.href = item.songUrl;
+            a.innerHTML = item.song;
+            li.appendChild(a);
+
+            const small = document.createElement("small");
+            small.innerHTML = ` - ${item.artist}`;
+            li.appendChild(small);
+
+            recentScrobbles.appendChild(li);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        getRecentTracks();
+        setInterval(getRecentTracks, 10000);
+    });
+</script>

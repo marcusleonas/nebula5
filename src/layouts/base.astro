@@ -1,0 +1,67 @@
+---
+import Navbar from "~/components/navbar.astro";
+
+import { Icon as LucideIcon } from "@lucide/astro";
+
+import "@fontsource-variable/syne";
+import "@fontsource/space-mono";
+import "@fontsource/vt323";
+
+import "~/styles/resets.css";
+import "~/styles/style.css";
+
+interface Props {
+  title: string;
+  description: string;
+  icon: typeof LucideIcon;
+}
+
+const props = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n3bula.lol</title>
+  </head>
+  <body>
+    <!-- <div class="marquee">
+            <div class="track">
+                <span>welcome to my site</span>
+                <span>made with love and coffee</span>
+                <span>welcome to my site</span>
+                <span>made with love and coffee</span>
+            </div>
+        </div> -->
+
+    <div class="wrapper">
+      <Navbar />
+
+      <section class="page-title">
+        <div class="content">
+          <h1 set:html={props.title} />
+          <p set:html={props.description} />
+        </div>
+        {
+          props.icon && (
+            <div class="icon">
+              <props.icon size={112} />
+            </div>
+          )
+        }
+      </section>
+
+      <slot />
+
+      <footer>
+        <p>&copy; 2022-2026 n3bula</p>
+        <p>
+          Made with <a href="https://astro.build">Astro</a>, hosted on <a
+            href="https://nekoweb.org">Nekoweb</a
+          > :3
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

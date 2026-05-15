@@ -49,6 +49,12 @@ export const navLinks: NavGroup[] = [
         description: "laptop specs, software, peripherals, etc",
         icon: PcCase,
       },
+      {
+        href: "/neighbours",
+        label: "neighbours",
+        description: "neighbours, moots, and other sites I find cool!",
+        icon: Globe,
+      },
     ],
   },
   {

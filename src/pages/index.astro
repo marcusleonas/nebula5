@@ -4,168 +4,163 @@ import Lastfm from "~/components/lastfm.astro";
 
 import { Smile } from "@lucide/astro";
 import {
-    Github,
-    Lastdotfm,
-    Gitlab,
-    Mastodon,
-    Bluesky,
-    Steam,
+  Github,
+  Lastdotfm,
+  Gitlab,
+  Mastodon,
+  Bluesky,
+  Steam,
 } from "simple-icons-astro";
 
 import { getCollection } from "astro:content";
 
 const latestChange = (await getCollection("changes"))
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .at(0);
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .at(0);
 
 type SocialLink = {
-    name: string;
-    href: string;
-    icon: typeof Github;
+  name: string;
+  href: string;
+  icon: typeof Github;
 };
 
 const socials: SocialLink[] = [
-    {
-        name: "GitHub",
-        href: "https://github.com/marcusleonas",
-        icon: Github,
-    },
-    {
-        name: "GitLab",
-        href: "https://gitlab.com/marcusleonas",
-        icon: Gitlab,
-    },
-    {
-        name: "Mastodon",
-        href: "https://indieweb.social/@mlh",
-        icon: Mastodon,
-    },
-    {
-        name: "Bluesky",
-        href: "https://bsky.app/profile/n3bula.lol",
-        icon: Bluesky,
-    },
-    {
-        name: "Last.fm",
-        href: "https://last.fm/user/marcusleonas",
-        icon: Lastdotfm,
-    },
-    {
-        name: "Steam",
-        href: "https://steamcommunity.com/id/n3bulaXo",
-        icon: Steam,
-    },
+  {
+    name: "GitHub",
+    href: "https://github.com/marcusleonas",
+    icon: Github,
+  },
+  {
+    name: "GitLab",
+    href: "https://gitlab.com/marcusleonas",
+    icon: Gitlab,
+  },
+  {
+    name: "Mastodon",
+    href: "https://indieweb.social/@mlh",
+    icon: Mastodon,
+  },
+  {
+    name: "Bluesky",
+    href: "https://bsky.app/profile/n3bula.lol",
+    icon: Bluesky,
+  },
+  {
+    name: "Last.fm",
+    href: "https://last.fm/user/marcusleonas",
+    icon: Lastdotfm,
+  },
+  {
+    name: "Steam",
+    href: "https://steamcommunity.com/id/n3bulaXo",
+    icon: Steam,
+  },
 ];
 ---
 
 <Base
-    title="<span class='text-primary'>Nebula's</span> Site"
-    description="Silly goober"
-    icon={Smile}
+  title="<span class='text-primary'>Nebula's</span> Site"
+  description="Silly goober"
+  icon={Smile}
 >
-    <section class="has-sidebar">
-        <aside class="sidebar">
-            <div class="sidebar-box sidebar-top">
-                <div id="statuscafe">
-                    <div id="statuscafe-username"></div>
-                    <div id="statuscafe-content"></div>
-                </div>
-
-                <script
-                    src="https://status.cafe/current-status.js?name=n3bula"
-                    defer></script>
-            </div>
-
-            <div class="sidebar-box">
-                <Lastfm />
-            </div>
-
-            <div class="sidebar-box">
-                <h2>To-do List</h2>
-
-                <ul>
-                    <li>Add stuff to the to-do list</li>
-                </ul>
-
-                <small>In no particular order :3</small>
-            </div>
-        </aside>
-
-        <div class="content">
-            <div class="auto-grid">
-                <div class="box">
-                    <h2>welcome</h2>
-
-                    <div class="box-content">
-                        <p>
-                            Hello and welcome to version 5 my site! This time,
-                            I've gone for a more modern feel, which I think
-                            turned out quite nice! Feel free to have a nosey
-                            around :)
-                        </p>
-                    </div>
-                </div>
-
-                <div class="box">
-                    <h2>changelog</h2>
-
-                    <div class="box-content">
-                        {
-                            latestChange && (
-                                <>
-                                    <p>
-                                        Last change on{" "}
-                                        <strong>
-                                            {new Date(
-                                                latestChange.data.date,
-                                            ).toLocaleDateString("en-GB", {
-                                                day: "numeric",
-                                                month: "long",
-                                                year: "numeric",
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                            })}
-                                        </strong>
-                                        :
-                                    </p>
-
-                                    <blockquote>
-                                        {latestChange.data.summary}
-                                    </blockquote>
-
-                                    <a href="/changelog">View full changelog</a>
-                                </>
-                            )
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <h2>Socials</h2>
-
-                <p>
-                    Feel free to add me wherever! I'm always open to a chat :3
-                </p>
-
-                <div class="auto-grid social-grid">
-                    {
-                        socials.map((social) => {
-                            const Icon = social.icon;
-
-                            return (
-                                <a href={social.href} class="button">
-                                    {social.name}
-
-                                    <div>
-                                        <Icon size={32} />
-                                    </div>
-                                </a>
-                            );
-                        })
-                    }
-                </div>
-            </div>
+  <section class="has-sidebar">
+    <aside class="sidebar">
+      <div class="sidebar-box sidebar-top">
+        <div id="statuscafe">
+          <div id="statuscafe-username"></div>
+          <div id="statuscafe-content"></div>
         </div>
-    </section>
+
+        <script src="https://status.cafe/current-status.js?name=n3bula" defer
+        ></script>
+      </div>
+
+      <div class="sidebar-box">
+        <Lastfm />
+      </div>
+
+      <div class="sidebar-box">
+        <h2>To-do List</h2>
+
+        <ul>
+          <li>Add stuff to the to-do list</li>
+        </ul>
+
+        <small>In no particular order :3</small>
+      </div>
+    </aside>
+
+    <div class="content">
+      <div class="auto-grid">
+        <div class="box">
+          <h2>welcome</h2>
+
+          <div class="box-content">
+            <p>
+              Hello and welcome to version 5 my site! This time, I've gone for a
+              more modern feel, which I think turned out quite nice! Feel free
+              to have a nosey around :)
+            </p>
+          </div>
+        </div>
+
+        <div class="box">
+          <h2>changelog</h2>
+
+          <div class="box-content">
+            {
+              latestChange && (
+                <>
+                  <p>
+                    Last change on{" "}
+                    <strong>
+                      {new Date(latestChange.data.date).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        },
+                      )}
+                    </strong>
+                    :
+                  </p>
+
+                  <blockquote>{latestChange.data.summary}</blockquote>
+
+                  <a href="/changelog">View full changelog</a>
+                </>
+              )
+            }
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2>Socials</h2>
+
+        <p>Feel free to add me wherever! I'm always open to a chat :3</p>
+
+        <div class="auto-grid social-grid">
+          {
+            socials.map((social) => {
+              const Icon = social.icon;
+
+              return (
+                <a href={social.href} class="button">
+                  {social.name}
+
+                  <div>
+                    <Icon size={32} />
+                  </div>
+                </a>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </section>
 </Base>

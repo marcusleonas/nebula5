@@ -9,6 +9,7 @@ import "@fontsource/vt323";
 
 import "~/styles/resets.css";
 import "~/styles/style.css";
+import BackupBanner from "~/components/backup-banner.svelte";
 
 interface Props {
   title: string;
@@ -26,6 +27,8 @@ const props = Astro.props;
     <title>n3bula.lol</title>
   </head>
   <body>
+    <BackupBanner client:only />
+
     <!-- <div class="marquee">
             <div class="track">
                 <span>welcome to my site</span>
@@ -40,8 +43,8 @@ const props = Astro.props;
 
       <section class="page-title">
         <div class="content">
-          <h1 set:html={props.title} />
-          <p set:html={props.description} />
+          <h1 set:html={props.title}></h1>
+          <p set:html={props.description}></p>
         </div>
         {
           props.icon && (

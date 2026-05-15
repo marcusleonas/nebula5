@@ -19,19 +19,19 @@ jobs:
       # The checkout step copies your repo into the action runner. Important!
       - uses: actions/checkout@v4
 
-    #   - name: Install, build, and upload your site
-    #     uses: withastro/action@v5
+      #   - name: Install, build, and upload your site
+      #     uses: withastro/action@v5
 
       - uses: oven-sh/setup-bun@v2
         with:
-            bun-version: latest
+          bun-version: latest
 
       - uses: actions/setup-node@v6
         with:
-            # Version Spec of the version to use in SemVer notation.
-            # It also admits such aliases as lts/*, latest, nightly and canary builds
-            # Examples: 12.x, 10.15.1, >=10.15.0, lts/Hydrogen, 16-nightly, latest, node
-            node-version: 'lts/*'
+          # Version Spec of the version to use in SemVer notation.
+          # It also admits such aliases as lts/*, latest, nightly and canary builds
+          # Examples: 12.x, 10.15.1, >=10.15.0, lts/Hydrogen, 16-nightly, latest, node
+          node-version: "lts/*"
 
       - name: Install deps
         run: bun install
@@ -46,6 +46,16 @@ jobs:
           nekoweb-domain: "n3bula.lol"
           nekoweb-username: "wishbone"
           directory: "/dist"
+
+      # Also deploy to neocities as a backup
+      - name: Deploy to neocities
+        uses: bcomnes/deploy-to-neocities@v3
+        with:
+          api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
+          cleanup: false
+          neocities_supporter: false # set this to true if you have a supporter account and want to bypass unsuported files filter.
+          preview_before_deploy: true # print a deployment plan prior to waiting for files to upload.
+          dist_dir: dist
 
       # deploy backup to github pages
       # - name: Deploy to GitHub Pages
